@@ -1,38 +1,91 @@
-.App {
-  text-align: center;
+.red-button {
+  margin: 5px;
+  background-color: rgb(255, 0, 90);
+  border-color: rgb(215, 1, 76);
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  margin-top: 15px;
+  position: relative;
+} 
+
+.red-button.active {
+  margin: 5px;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px; 
+  background-color: rgb(255, 0, 90);
+  box-shadow: 
+  0 0 5px 2px rgb(255, 0, 90),
+  0 0 8px 4px rgb(156, 0, 57),
+  0 0 9px 7px rgb(81, 0, 30);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.blue-button {
+  margin: 5px;
+  background-color: rgb(0, 179, 255);
+  border-color: rgb(1, 151, 215);
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  margin-top: 15px;
+  position: relative;
+} 
+
+.blue-button.active {
+  margin: 5px;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px; 
+  background-color: rgb(0, 179, 255);
+  box-shadow: 
+  0 0 5px 2px rgb(0, 179, 255),
+  0 0 8px 4px rgb(0, 111, 158),
+  0 0 9px 7px rgb(0, 57, 82);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.green-button {
+  margin: 5px;
+  background-color: rgb(0, 255, 195);
+  border-color: rgb(0, 202, 155);
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  margin-top: 15px;
+  position: relative;
+} 
+
+.green-button.active {
+  margin: 5px;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px; 
+  background-color: rgb(0, 255, 195);
+  box-shadow: 
+  0 0 5px 2px rgb(0, 255, 195),
+  0 0 8px 4px rgb(0, 172, 132),
+  0 0 9px 7px rgb(0, 124, 95);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+.yellow-button {
+  margin: 5px;
+  background-color: rgb(255, 230, 0);
+  border-color: rgb(216, 194, 1);
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  margin-top: 15px;
+  position: relative;
+} 
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.yellow-button.active {
+  margin: 5px;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px; 
+  background-color: rgb(255, 230, 0);
+  box-shadow: 
+  0 0 5px 2px rgb(255, 230, 0),
+  0 0 8px 4px rgb(177, 160, 0),
+  0 0 9px 7px rgb(136, 122, 0);
 }
