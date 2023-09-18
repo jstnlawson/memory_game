@@ -1,63 +1,136 @@
 
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 
 
 function App() {
 
-  const [isRedClicked, setIsRedClicked] = useState(false);
-  const [isBlueClicked, setIsBlueClicked] = useState(false);
-  const [isGreenClicked, setIsGreenClicked] = useState(false);
-  const [isYellowClicked, setIsYellowClicked] = useState(false);
+  const [pattern, setPattern] = useState([]);
+  const [userPattern, setUserPattern] = useState([]);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isComputerTurn, setIsComputerTurn] = useState(true);
 
-  const redButtonClick = () => {
-    setIsRedClicked(!isRedClicked); 
-    setTimeout(() => {
-      setIsRedClicked(false);
-    }, 250);
+
+  const buttonColors = ['red', 'blue', 'green', 'yellow'];
+
+  // Generate a random pattern and display it
+  // ...pattern is creating the array that holds the pattern as it's made
+  const generatePattern = () => {
+    const newPattern = [...pattern];
+    const randomColor = buttonColors[Math.floor(Math.random() * 4)];
+    newPattern.push(randomColor);
+    setPattern(newPattern);
   };
 
-  const blueButtonClick = () => {
-    setIsBlueClicked(!isBlueClicked); 
-    setTimeout(() => {
-      setIsBlueClicked(false);
-    }, 250);
+  // Handle button clicks during the game
+  const handleButtonClick = (color) => {
+    console.log('isComputerTurn:', isComputerTurn);
+    console.log('userPattern:', userPattern);
+
+
+
+    if (!isPlaying || isComputerTurn) return;
+    const newUserPattern = [...userPattern, color];
+    setUserPattern(newUserPattern);
+
+    if (newUserPattern[currentStep] !== pattern[currentStep]) {
+      // User made a mistake
+      endGame();
+      return;
+    }
+
+    if (newUserPattern.length === pattern.length) {
+      // User completed the current sequence
+      setTimeout(() => {
+        setUserPattern([]);
+        setCurrentStep(0);
+        setIsComputerTurn(true);
+        generatePattern();
+      }, 250);
+    } else {
+      setCurrentStep(currentStep + 1);
+    }
   };
 
-  const greenButtonClick = () => {
-    setIsGreenClicked(!isGreenClicked); 
-    setTimeout(() => {
-      setIsGreenClicked(false);
-    }, 250);
+  // Start the game
+  const startGame = () => {
+    setPattern([]);
+    setUserPattern([]);
+    setCurrentStep(0);
+    setIsPlaying(true);
+    setIsComputerTurn(true);
+    generatePattern();
+    // playComputerTurn();
   };
 
-  const yellowButtonClick = () => {
-    setIsYellowClicked(!isYellowClicked); 
-    setTimeout(() => {
-      setIsYellowClicked(false);
-    }, 250);
+  // End the game
+  const endGame = () => {
+    setIsPlaying(false);
+    alert('Game Over! Your score: ' + (pattern.length - 1));
   };
+
+  useEffect(() => {
+    const delay = 1000; // Delay between computer's button clicks in milliseconds
+
+    if (isPlaying && isComputerTurn) {
+      setIsComputerTurn(true);
+
+      const timer = setInterval(() => {
+        // handleButtonClick(pattern[currentStep]);
+        const computerColor = pattern[currentStep]; // Get the color the computer is clicking
+        console.log('Computer clicked:', computerColor); // Log the computer's click
+
+        handleButtonClick(computerColor);
+
+
+        if (currentStep + 1 < pattern.length) {
+          setCurrentStep(currentStep + 1);
+        } else {
+          setCurrentStep(0);
+          setIsComputerTurn(false); // Switch to the user's turn
+          clearInterval(timer); // Stop the timer when the computer's turn is done
+        }
+      }, delay);
+
+      return () => {
+        clearInterval(timer); // Cleanup the timer when the component unmounts or when isComputerTurn becomes false
+      };
+    }
+  }, [currentStep, isPlaying, pattern, isComputerTurn]);
+
 
   return (
     <div className="App">
-      <button 
-      className={`red-button ${isRedClicked ? 'active' : ''}`} 
-      onClick={redButtonClick}>
-      </button>
-      <button 
-      className={`blue-button ${isBlueClicked ? 'active' : ''}`} 
-      onClick={blueButtonClick}>
-      </button>
-      <button 
-      className={`green-button ${isGreenClicked ? 'active' : ''}`} 
-      onClick={greenButtonClick}>
-      </button>
-      <button 
-      className={`yellow-button ${isYellowClicked ? 'active' : ''}`} 
-      onClick={yellowButtonClick}>
-      </button>
+
+      <div>
+        {buttonColors.map((color) => (
+      <button
+        key={color}
+        className={`${color}-button ${userPattern.includes(color) ? 'active' : ''}`}
+        onClick={() => handleButtonClick(color)}
+      ></button>
+    ))}
+
+        {/* {buttonColors.map((color, index) => (
+          <button
+            key={color}
+            className={`${color}-button ${userPattern.includes(color) || index <= computerClicks ? 'active' : ''}`}
+            onClick={() => handleButtonClick(color)}
+          ></button>
+        ))} */}
+
+
+        {isPlaying && (
+          <div className="turn-status">
+            {isComputerTurn ? "Computer Turn" : "User Turn"}
+          </div>
+        )}
+      </div>
+      <button onClick={startGame}>Start</button>
     </div>
+
   );
 }
 
