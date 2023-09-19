@@ -48,7 +48,7 @@ function App() {
         setCurrentStep(0);
         setIsComputerTurn(true);
         generatePattern();
-      }, 250);
+      }, 500);
     } else {
       setCurrentStep(currentStep + 1);
     }
@@ -71,6 +71,8 @@ function App() {
     alert('Game Over! Your score: ' + (pattern.length - 1));
   };
 
+  //something is screwed up with the dependences here
+  //that is propbably causing the clicks to no longer show up
   useEffect(() => {
     const delay = 1000; // Delay between computer's button clicks in milliseconds
 
@@ -112,15 +114,6 @@ function App() {
         onClick={() => handleButtonClick(color)}
       ></button>
     ))}
-
-        {/* {buttonColors.map((color, index) => (
-          <button
-            key={color}
-            className={`${color}-button ${userPattern.includes(color) || index <= computerClicks ? 'active' : ''}`}
-            onClick={() => handleButtonClick(color)}
-          ></button>
-        ))} */}
-
 
         {isPlaying && (
           <div className="turn-status">
